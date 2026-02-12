@@ -169,15 +169,15 @@
 <body>
 
   <div class="card">
-    <div class="emoji">🐱❤️</div>
-    <h2>Aditi,<br>will you be my Valentine?</h2>
+    <div class="emoji">🌹🍷🥃❤️</div>
+    <h2>Milli,<br>Will you be my Valentine?</h2>
 
     <div class="buttons">
-      <button id="yes">Yes 💖</button>
+      <button id="yes">Yes 💞</button>
       <button id="no">No 🙈</button>
     </div>
 
-    <div class="hint">Some love stories don’t allow “no” ✨</div>
+    <div class="hint">✨ Some love stories are already written ✨</div>
   </div>
 
   <!-- Sounds -->
@@ -219,10 +219,13 @@
       }, 500);
     });
 
+    const heartCycle = ["❤️", "🧡", "💛", "💚", "💙", "💜"];
+    let heartCycleIndex = 0;
+
     function createHeart() {
       const heart = document.createElement("div");
       heart.className = "heart";
-      heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💗";
+      heart.innerHTML = heartCycle[heartCycleIndex++ % heartCycle.length];
       heart.style.left = Math.random() * 100 + "vw";
       heart.style.fontSize = Math.random() * 22 + 14 + "px";
       heart.style.animationDuration = Math.random() * 3 + 4 + "s";
