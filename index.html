@@ -135,6 +135,69 @@
       font-style: italic;
     }
 
+    /* Popup */
+    .popup {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(6px);
+      z-index: 10;
+      padding: 24px;
+    }
+
+    .popup.is-open {
+      display: flex;
+      animation: popupFade 0.35s ease;
+    }
+
+    .popup-card {
+      width: min(92%, 420px);
+      background: #fff;
+      border-radius: 22px;
+      padding: 28px 26px 22px;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+      animation: popupIn 0.4s ease;
+      position: relative;
+    }
+
+    .popup-title {
+      font-family: "Playfair Display", serif;
+      font-size: 24px;
+      color: #4a1c2f;
+      margin-bottom: 8px;
+    }
+
+    .popup-msg {
+      font-size: 15px;
+      color: #5a5a5a;
+      margin-bottom: 18px;
+    }
+
+    .popup-close {
+      border: none;
+      background: linear-gradient(135deg, #ff4d6d, #ff758f);
+      color: #fff;
+      padding: 10px 26px;
+      border-radius: 24px;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 12px 24px rgba(255,77,109,0.35);
+    }
+
+    @keyframes popupIn {
+      from { transform: translateY(12px) scale(0.98); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    @keyframes popupFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
     /* Floating depth hearts */
     .heart {
       position: absolute;
@@ -180,6 +243,18 @@
     <div class="hint">✨ Some love stories are already written ✨</div>
   </div>
 
+  <div id="popup" class="popup" aria-hidden="true">
+    <div class="popup-card" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+      <div id="popupTitle" class="popup-title">YAY 💕</div>
+      <div class="popup-msg">
+        I can’t wait for Valentine’s Day with you!
+        <br/>
+        (Every Year, Forever)
+        </div>
+      <button id="popupClose" class="popup-close">Close</button>
+    </div>
+  </div>
+
   <!-- Sounds -->
   <audio id="hoverSound" src="https://assets.mixkit.co/sfx/preview/mixkit-cartoon-voice-laugh-343.mp3"></audio>
   <audio id="yesSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
@@ -188,6 +263,8 @@
     const noBtn = document.getElementById("no");
     const yesBtn = document.getElementById("yes");
     const card = document.querySelector(".card");
+    const popup = document.getElementById("popup");
+    const popupClose = document.getElementById("popupClose");
     const hoverSound = document.getElementById("hoverSound");
     const yesSound = document.getElementById("yesSound");
 
@@ -215,9 +292,21 @@
       });
 
       setTimeout(() => {
-        alert("YAY 💕 I can’t wait for Valentine’s Day with you!");
+        popup.classList.add("is-open");
+        popup.setAttribute("aria-hidden", "false");
       }, 500);
     });
+
+    function closePopup() {
+      popup.classList.remove("is-open");
+      popup.setAttribute("aria-hidden", "true");
+    }
+
+    popup.addEventListener("click", (e) => {
+      if (e.target === popup) closePopup();
+    });
+
+    popupClose.addEventListener("click", closePopup);
 
     const heartCycle = ["❤️", "🧡", "💛", "💚", "💙", "💜"];
     let heartCycleIndex = 0;
